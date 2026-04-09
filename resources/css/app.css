@@ -1,11 +1,104 @@
 @import 'tailwindcss';
-
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+@plugin 'daisyui';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --sidebar-w: 260px;
+    --font-*: initial;
+    --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+@layer base {
+    * {
+        font-family: var(--font-sans);
+    }
+
+    body {
+        background-color: #f1f5f9;
+    }
+}
+
+@layer components {
+    .brand-serif {
+        font-family: 'Instrument Serif', serif;
+    }
+
+    /* LAYOUT */
+    .app-wrapper {
+        display: flex;
+        min-height: 100vh;
+    }
+
+    /* SIDEBAR */
+    .sidebar-fixed {
+        width: var(--sidebar-w);
+        height: 100vh;
+        position: sticky;
+        top: 0;
+        flex-shrink: 0;
+        z-index: 40;
+        overflow: hidden;
+        background: linear-gradient(160deg, #1e2d6b 0%, #2d4499 60%, #1a2d7a 100%);
+        box-shadow: 4px 0 24px rgba(30, 45, 107, 0.35);
+        transition: all .3s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    /* MAIN */
+    .main-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        min-width: 0;
+    }
+
+    /* CONTENT SCROLL */
+    .main-scroll {
+        flex: 1;
+        padding: 28px;
+    }
+
+    /* MOBILE */
+    @media(max-width: 1024px) {
+        .sidebar-fixed {
+            position: fixed;
+            left: 0;
+            transform: translateX(-100%);
+        }
+
+        .sidebar-fixed.open {
+            transform: translateX(0);
+        }
+    }
+
+    /* OVERLAY */
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.45);
+        z-index: 39;
+        backdrop-filter: blur(2px);
+    }
+
+    /* BUTTONS */
+    .btn-primary-gradient {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        padding: 13px;
+        color: white;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        font-weight: bold;
+        transition: all 150ms;
+        border: none;
+        cursor: pointer;
+        background: linear-gradient(135deg, #1e2d6b, #2d4499);
+    }
+
+    .btn-primary-gradient:hover {
+        background: linear-gradient(135deg, #162156, #1e2d6b);
+    }
 }
