@@ -3,7 +3,7 @@
     {{-- Header --}}
     <div class="flex items-center justify-between mb-6">
         <h2 class="text-2xl font-bold text-slate-800">
-            Manajemen Poli
+            Data Poli
         </h2>
 
         <a href="{{ route('polis.create') }}" class="btn bg-[#2d4499] hover:bg-[#1e2d6b] 
