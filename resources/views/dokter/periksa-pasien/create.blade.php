@@ -16,6 +16,16 @@
     <div class="card bg-base-100 shadow-sm rounded-2xl border border-slate-200">
         <div class="card-body p-8">
 
+            @if ($errors->any())
+                <div class="mb-5 p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm">
+                    <ul class="list-disc pl-5 font-semibold">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <form action="{{ route('periksa-pasien.store') }}" method="POST">
                 @csrf
                 <input type="hidden" name="id_daftar_poli" value="{{ $id }}">
@@ -30,8 +40,9 @@
                         @foreach ($obats as $obat)
                             <option value="{{ $obat->id }}"
                                 data-nama="{{ $obat->nama_obat }}"
-                                data-harga="{{ $obat->harga }}">
-                                {{ $obat->nama_obat }} - Rp{{ number_format($obat->harga) }}
+                                data-harga="{{ $obat->harga }}"
+                                data-stok="{{ $obat->stok }}">
+                                {{ $obat->nama_obat }} - Rp{{ number_format($obat->harga) }} (Stok: {{ $obat->stok }})
                             </option>
                         @endforeach
                     </select>
@@ -65,7 +76,7 @@
                         <span class="text-sm font-semibold text-gray-700">Catatan <span class="text-slate-400 font-normal">(Opsional)</span></span>
                     </label>
                     <textarea name="catatan" id="catatan" rows="4"
-                        placeholder="Masukkan catatan..."
+                         placeholder="Masukkan catatan..."
                         class="textarea textarea-bordered w-full border-2 px-4 py-2 rounded-lg resize-none">{{ old('catatan') }}</textarea>
                 </div>
 
@@ -100,8 +111,20 @@
             const id = selectedOption.value;
             const nama = selectedOption.dataset.nama;
             const harga = parseInt(selectedOption.dataset.harga || 0);
+            const stok = parseInt(selectedOption.dataset.stok || 0);
 
-            if (!id || daftarObat.some(o => o.id == id)) return;
+            if (!id) return;
+
+            if (stok <= 0) {
+                alert(`Stok ${nama} sedang habis!`);
+                selectObat.selectedIndex = 0;
+                return;
+            }
+
+            if (daftarObat.some(o => o.id == id)) {
+                selectObat.selectedIndex = 0;
+                return;
+            }
 
             daftarObat.push({ id, nama, harga });
             renderObat();

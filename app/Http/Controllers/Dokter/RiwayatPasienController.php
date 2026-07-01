@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class RiwayatPasienController extends Controller
 {
+//disini
     public function index(){
         $riwayatPasien = Periksa::whereHas('daftarPoli.jadwalPeriksa', function($query) {
             $query->where('id_dokter', Auth::id());

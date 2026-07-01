@@ -28,6 +28,7 @@
                             <th class="px-6 py-4">Nama Obat</th>
                             <th class="px-6 py-4">Kemasan</th>
                             <th class="px-6 py-4">Harga</th>
+                            <th class="px-6 py-4">Stok</th>
                             <th class="px-6 py-4 text-right">Aksi</th>
                         </tr>
                     </thead>
@@ -50,6 +51,25 @@
 
                             <td class="px-6 py-4 font-semibold text-slate-800">
                                 Rp {{ number_format($obat->harga, 0, ',', '.') }}
+                            </td>
+
+                            <td class="px-6 py-4">
+                                @if($obat->stok == 0)
+                                    <span class="inline-block px-3 py-1 text-xs font-semibold 
+                                                 rounded-full bg-red-100 text-red-600">
+                                        Habis
+                                    </span>
+                                @elseif($obat->stok <= 10)
+                                    <span class="inline-block px-3 py-1 text-xs font-semibold 
+                                                 rounded-full bg-amber-100 text-amber-600">
+                                        Menipis (Sisa {{ $obat->stok }})
+                                    </span>
+                                @else
+                                    <span class="inline-block px-3 py-1 text-xs font-semibold 
+                                                 rounded-full bg-blue-100 text-blue-600">
+                                        {{ $obat->stok }}
+                                    </span>
+                                @endif
                             </td>
 
                             <td class="px-6 py-4 text-right">
@@ -85,7 +105,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="4" class="text-center py-12 text-slate-400">
+                            <td colspan="5" class="text-center py-12 text-slate-400">
                                 <i class="fas fa-inbox text-3xl mb-3 block"></i>
                                 Belum ada data obat
                             </td>

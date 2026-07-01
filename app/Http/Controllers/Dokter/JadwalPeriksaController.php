@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class JadwalPeriksaController extends Controller
 {
+    // 2. read (menampilkan data) 
     public function index()
     {
         $dokter = Auth::user();
@@ -20,15 +21,17 @@ class JadwalPeriksaController extends Controller
     {
         return view('dokter.jadwal-periksa.create');
     }
-
+    // 1. create and store 
     public function store(Request $request)
     {
+        // 1. validasi input 
         $request->validate([
             'hari' => 'required',
             'jam_mulai' => 'required',
             'jam_selesai' => 'required',
         ]);
 
+        // 1. Simpan ke Tabel Utama 
         JadwalPeriksa::create([
             'id_dokter' => Auth::id(),
             'hari' => $request->hari,
@@ -54,7 +57,7 @@ class JadwalPeriksaController extends Controller
             'jam_mulai' => 'required',
             'jam_selesai' => 'required',
         ]);
-
+        // 3 . update data  
         $jadwalPeriksa = JadwalPeriksa::findOrFail($id);
         $jadwalPeriksa->update([
             'hari' => $request->hari,
@@ -66,7 +69,7 @@ class JadwalPeriksaController extends Controller
             ->with('message', 'Berhasil Melakukan Update Data')
             ->with('type', 'success');
     }
-
+    // 3. delete data 
     public function destroy(string $id)
     {
         $jadwalPeriksa = JadwalPeriksa::findOrFail($id);
